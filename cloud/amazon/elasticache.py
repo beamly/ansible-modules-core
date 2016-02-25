@@ -199,6 +199,7 @@ class ElastiCacheManager(object):
         """Check if cache cluster exists"""
         try:
             self.conn.describe_cache_clusters(cache_cluster_id=self.name)
+            return True
         except BotoServerError, exception:
             if exception.status == 404:
                 return False
