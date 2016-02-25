@@ -141,6 +141,7 @@ try:
     import boto
     from boto.elasticache.layer1 import ElastiCacheConnection
     from boto.regioninfo import RegionInfo
+    from boto.exception import BotoServerError
     HAS_BOTO = True
 except ImportError:
     HAS_BOTO = False
@@ -196,6 +197,14 @@ class ElastiCacheManager(object):
 
     def exists(self):
         """Check if cache cluster exists"""
+        try:
+            self.conn.describe_cache_clusters(cache_cluster_id=self.name)
+        except BotoServerError, exception:
+            if exception.status == 404:
+                return False
+            else:
+                raise
+
         return self.status in self.EXIST_STATUSES
 
     def create(self):
