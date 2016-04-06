@@ -140,6 +140,7 @@ EXAMPLES = '''
 
 # Search for the AMI tagged "project:website"
 - ec2_ami_find:
+    region: us-east-1
     owner: self
     ami_tags:
       project: website
@@ -149,6 +150,7 @@ EXAMPLES = '''
 # Search for the latest Ubuntu 14.04 AMI
 - ec2_ami_find:
     name: "ubuntu/images/ebs/ubuntu-trusty-14.04-amd64-server-*"
+    region: us-east-1
     owner: 099720109477
     sort: name
     sort_order: descending
@@ -158,6 +160,7 @@ EXAMPLES = '''
 # Launch an EC2 instance
 - ec2:
     image: "{{ ami_find.results[0].ami_id }}"
+    region: us-east-1
     instance_type: m3.medium
     key_name: mykey
     wait: yes
